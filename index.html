@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redwood Coaching | Life & Career Coaching UK</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            forest:  { DEFAULT: '#2C4A35', light: '#3D6349', dark: '#1A2E20' },
+            earth:   { DEFAULT: '#8B6347', light: '#A5795C', warm: '#C4956A' },
+            bark:    '#5C4033',
+            cream:   { DEFAULT: '#F5EFE6', warm: '#EDE4D7', deep: '#D9CFC3' },
+            moss:    '#6B7C5C',
+            sage:    '#A3B899',
+          },
+          fontFamily: {
+            display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            body:    ['"DM Sans"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: #F5EFE6; color: #2C4A35; }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      opacity: .025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    /* Nav scroll shadow */
+    #navbar { transition: box-shadow .3s, background .3s; }
+    #navbar.scrolled { box-shadow: 0 2px 24px rgba(44,74,53,.10); background: rgba(245,239,230,.97) !important; }
+
+    /* Fade-up animation */
+    .fade-up { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* Stagger delays */
+    .delay-1 { transition-delay: .1s; }
+    .delay-2 { transition-delay: .22s; }
+    .delay-3 { transition-delay: .34s; }
+    .delay-4 { transition-delay: .46s; }
+
+    /* Hero texture ring */
+    .hero-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(44,74,53,.12);
+      animation: breathe 6s ease-in-out infinite;
+    }
+    @keyframes breathe {
+      0%,100% { transform: scale(1); opacity: .7; }
+      50%      { transform: scale(1.04); opacity: 1; }
+    }
+
+    /* Leaf divider */
+    .leaf-divider { width: 48px; height: 2px; background: #C4956A; display: inline-block; }
+
+    /* Card hover */
+    .service-card {
+      transition: transform .3s ease, box-shadow .3s ease;
+      position: relative; overflow: hidden;
+    }
+    .service-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, #2C4A35, #C4956A);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .4s ease;
+    }
+    .service-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(44,74,53,.12); }
+    .service-card:hover::after { transform: scaleX(1); }
+
+    /* CTA button pulse */
+    .btn-primary {
+      position: relative; overflow: hidden;
+      background: #2C4A35; color: #F5EFE6;
+      transition: background .3s, transform .2s;
+    }
+    .btn-primary:hover { background: #3D6349; transform: translateY(-2px); }
+    .btn-primary::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(255,255,255,.08);
+      opacity: 0; transition: opacity .3s;
+    }
+    .btn-primary:hover::after { opacity: 1; }
+
+    .btn-outline {
+      border: 1.5px solid #2C4A35; color: #2C4A35;
+      transition: background .3s, color .3s, transform .2s;
+    }
+    .btn-outline:hover { background: #2C4A35; color: #F5EFE6; transform: translateY(-2px); }
+
+    /* About image frame */
+    .portrait-frame {
+      position: relative;
+    }
+    .portrait-frame::before {
+      content: '';
+      position: absolute; inset: -12px -12px 12px 12px;
+      border: 1.5px solid rgba(196,149,106,.4);
+      border-radius: 4px; z-index: 0;
+    }
+
+    /* Testimonial quote mark */
+    .quote-mark { font-family: 'Cormorant Garamond', serif; font-size: 6rem; line-height: 0; color: #C4956A; opacity: .25; }
+
+    /* Section bg variants */
+    .bg-forest-section { background: #2C4A35; }
+    .bg-cream-section  { background: #EDE4D7; }
+
+    /* Smooth underline nav links */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 1px;
+      background: #C4956A; transform: scaleX(0); transform-origin: right;
+      transition: transform .3s ease;
+    }
+    .nav-link:hover::after { transform: scaleX(1); transform-origin: left; }
+  </style>
+</head>
+
+<body class="relative z-10">
+
+  <!-- ── NAVIGATION ───────────────────────────────────────────── -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-cream-DEFAULT/90 backdrop-blur-sm">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 2 C16 2 8 10 8 20 C8 26 12 30 16 30 C20 30 24 26 24 20 C24 10 16 2 16 2Z" fill="#2C4A35" opacity=".9"/>
+          <path d="M16 8 C13 14 12 18 13 23" stroke="#6B7C5C" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+          <path d="M16 12 C19 15 21 17 20 21" stroke="#A3B899" stroke-width="1" stroke-linecap="round" fill="none"/>
+        </svg>
+        <span class="font-display text-xl font-semibold tracking-wide text-forest">Redwood <span class="text-earth">Coaching</span></span>
+      </a>
+
+      <!-- Desktop links -->
+      <ul class="hidden md:flex items-center gap-8 font-body text-sm font-medium text-forest/80">
+        <li><a href="#services" class="nav-link hover:text-forest transition-colors">Services</a></li>
+        <li><a href="#about"    class="nav-link hover:text-forest transition-colors">About</a></li>
+        <li><a href="#process"  class="nav-link hover:text-forest transition-colors">Process</a></li>
+        <li><a href="#contact"  class="nav-link hover:text-forest transition-colors">Contact</a></li>
+      </ul>
+
+      <a href="#contact" class="hidden md:inline-flex btn-primary rounded-full px-6 py-2.5 text-sm font-medium font-body">
+        Book a Discovery Call
+      </a>
+
+      <!-- Mobile menu toggle -->
+      <button id="menu-btn" class="md:hidden p-2 text-forest" aria-label="Open menu">
+        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-cream-warm border-t border-forest/10 px-6 py-5 space-y-4 font-body text-forest">
+      <a href="#services" class="block font-medium">Services</a>
+      <a href="#about"    class="block font-medium">About</a>
+      <a href="#process"  class="block font-medium">Process</a>
+      <a href="#contact"  class="block font-medium">Contact</a>
+      <a href="#contact"  class="inline-block btn-primary rounded-full px-6 py-2.5 text-sm font-medium mt-2">Book a Discovery Call</a>
+    </div>
+  </nav>
+
+  <!-- ── HERO ─────────────────────────────────────────────────── -->
+  <section id="hero" class="relative min-h-screen flex items-center overflow-hidden" style="background: linear-gradient(155deg, #1A2E20 0%, #2C4A35 55%, #3D5E44 100%);">
+    <!-- Decorative rings -->
+    <div class="hero-ring w-[500px] h-[500px] top-1/2 right-[-100px] -translate-y-1/2 absolute" style="animation-delay:0s;"></div>
+    <div class="hero-ring w-[700px] h-[700px] top-1/2 right-[-200px] -translate-y-1/2 absolute" style="animation-delay:2s;"></div>
+    <div class="hero-ring w-[900px] h-[900px] top-1/2 right-[-300px] -translate-y-1/2 absolute" style="animation-delay:4s;"></div>
+
+    <!-- Warm accent blob -->
+    <div class="absolute bottom-[-80px] left-[-60px] w-80 h-80 rounded-full opacity-10" style="background: radial-gradient(circle, #C4956A, transparent 70%);"></div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-6 pt-32 pb-24 grid md:grid-cols-2 gap-12 items-center">
+      <!-- Text -->
+      <div>
+        <p class="fade-up font-body text-sage text-sm font-medium tracking-[.2em] uppercase mb-5">Life &amp; Career Coaching · UK</p>
+        <h1 class="fade-up delay-1 font-display text-cream-DEFAULT leading-[1.08] mb-6" style="font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 300;">
+          Grow into the life<br/><em class="text-earth-warm">you already know</em><br/>you deserve.
+        </h1>
+        <p class="fade-up delay-2 font-body text-sage/90 text-lg leading-relaxed mb-10 max-w-md">
+          Redwood Coaching helps professionals and individuals move from feeling stuck to living with clarity, purpose, and confidence — one honest conversation at a time.
+        </p>
+        <div class="fade-up delay-3 flex flex-wrap gap-4">
+          <a href="#contact" class="btn-primary rounded-full px-8 py-3.5 font-body font-medium text-base inline-flex items-center gap-2">
+            Book a Free Discovery Call
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#services" class="btn-outline rounded-full px-8 py-3.5 font-body font-medium text-base inline-flex items-center gap-2" style="border-color: rgba(163,184,153,.5); color: #A3B899;">
+            Explore Packages
+          </a>
+        </div>
+        <!-- Trust bar -->
+        <div class="fade-up delay-4 flex items-center gap-6 mt-12 pt-8 border-t border-white/10">
+          <div class="text-center">
+            <div class="font-display text-2xl text-earth-warm font-semibold">200+</div>
+            <div class="font-body text-xs text-sage/70 mt-0.5 uppercase tracking-wider">Clients Coached</div>
+          </div>
+          <div class="w-px h-8 bg-white/15"></div>
+          <div class="text-center">
+            <div class="font-display text-2xl text-earth-warm font-semibold">8 yrs</div>
+            <div class="font-body text-xs text-sage/70 mt-0.5 uppercase tracking-wider">Experience</div>
+          </div>
+          <div class="w-px h-8 bg-white/15"></div>
+          <div class="text-center">
+            <div class="font-display text-2xl text-earth-warm font-semibold">ICF</div>
+            <div class="font-body text-xs text-sage/70 mt-0.5 uppercase tracking-wider">Accredited</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Decorative typographic aside -->
+      <div class="hidden md:flex flex-col items-end justify-center gap-4 opacity-20">
+        <span class="font-display italic text-cream-DEFAULT" style="font-size:11rem; line-height:1; writing-mode:vertical-rl; transform:rotate(180deg); letter-spacing:-.02em;">grow</span>
+      </div>
+    </div>
+
+    <!-- Scroll cue -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+      <span class="font-body text-xs text-sage tracking-widest uppercase">Scroll</span>
+      <div class="w-px h-10 bg-sage/50" style="animation: pulse 2s ease-in-out infinite;"></div>
+    </div>
+  </section>
+
+  <!-- ── SERVICES ──────────────────────────────────────────────── -->
+  <section id="services" class="py-28" style="background: #F5EFE6;">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16 fade-up">
+        <p class="font-body text-earth text-sm font-medium tracking-[.2em] uppercase mb-3">What I Offer</p>
+        <h2 class="font-display text-forest" style="font-size: clamp(2rem, 4vw, 3.4rem); font-weight: 300;">Coaching packages<br/><em>tailored to you</em></h2>
+        <div class="flex items-center justify-center gap-3 mt-5">
+          <span class="leaf-divider"></span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="#C4956A"><circle cx="7" cy="7" r="3"/></svg>
+          <span class="leaf-divider"></span>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-7">
+        <!-- Card 1 -->
+        <div class="service-card fade-up delay-1 bg-cream-warm rounded-2xl p-8 shadow-sm border border-cream-deep/40">
+          <div class="w-12 h-12 rounded-xl mb-6 flex items-center justify-center" style="background: rgba(44,74,53,.1);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2C4A35" stroke-width="1.6" stroke-linecap="round"><path d="M12 2l2 7h7l-5.7 4.1 2.2 6.9L12 16l-5.5 4 2.2-6.9L3 9h7z"/></svg>
+          </div>
+          <h3 class="font-display text-forest text-2xl font-semibold mb-1">Clarity Intensive</h3>
+          <p class="font-body text-earth text-sm font-medium mb-4 tracking-wide">Single deep-dive session</p>
+          <p class="font-body text-forest/70 leading-relaxed text-sm mb-6">A focused 90-minute session designed to cut through noise, identify your core challenge, and leave you with a concrete direction. Perfect if you're at a crossroads.</p>
+          <ul class="space-y-2 mb-8">
+            <li class="font-body text-sm text-forest/80 flex items-start gap-2"><span class="text-earth mt-0.5">✦</span> 90-minute 1-to-1 session</li>
+            <li class="font-body text-sm text-forest/80 flex items-start gap-2"><span class="text-earth mt-0.5">✦</span> Pre-session reflection guide</li>
+            <li class="font-body text-sm text-forest/80 flex items-start gap-2"><span class="text-earth mt-0.5">✦</span> Written action summary</li>
+            <li class="font-body text-sm text-forest/80 flex items-start gap-2"><span class="text-earth mt-0.5">✦</span> 7-day follow-up email support</li>
+          </ul>
+          <a href="#contact" class="btn-outline rounded-full px-6 py-2.5 text-sm font-body font-medium inline-block">From £175</a>
+        </div>
+
+        <!-- Card 2 — featured -->
+        <div class="service-card fade-up delay-2 rounded-2xl p-8 shadow-xl relative" style="background: #2C4A35; color: #F5EFE6; border: none;">
+          <span class="absolute top-5 right-5 bg-earth-warm text-white font-body text-xs font-medium px-3 py-1 rounded-full tracking-wide">Most Popular</span>
+          <div class="w-12 h-12 rounded-xl mb-6 flex items-center justify-center" style="background: rgba(245,239,230,.12);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C4956A" stroke-width="1.6" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/><path d="M12 8v4l3 3"/></svg>
+          </div>
+          <h3 class="font-display text-cream-DEFAULT text-2xl font-semibold mb-1">Transformation Journey</h3>
+          <p class="font-body text-earth-warm text-sm font-medium mb-4 tracking-wide">3-month signature programme</p>
+          <p class="font-body text-sage/90 leading-relaxed text-sm mb-6">A sustained 12-week engagement covering identity, habits, relationships, and goals. This is where lasting change happens — supported every step of the way.</p>
+          <ul class="space-y-2 mb-8">
+            <li class="font-body text-sm text-cream-DEFAULT/85 flex items-start gap-2"><span class="text-earth-warm mt-0.5">✦</span> 8 × 60-minute sessions</li>
+            <li class="font-body text-sm text-cream-DEFAULT/85 flex items-start gap-2"><span class="text-earth-warm mt-0.5">✦</span> Values &amp; strengths assessment</li>
+            <li class="font-body text-sm text-cream-DEFAULT/85 flex items-start gap-2"><span class="text-earth-warm mt-0.5">✦</span> Weekly check-in messages</li>
+            <li class="font-body text-sm text-cream-DEFAULT/85 flex items-start gap-2"><span class="text-earth-warm mt-0.5">✦</span> Private resource library access</li>
+            <li class="font-body text-sm text-cream-DEFAULT/85 flex items-start gap-2"><span class="text-earth-warm mt-0.5">✦</span> Unlimited email support</li>
+          </ul>
+          <a href="#contact" class="inline-block rounded-full px-6 py-2.5 text-sm font-body font-medium bg-earth-warm text-white hover:bg-earth-light transition-colors">From £895</a>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="service-card fade-up delay-3 bg-cream-warm rounded-2xl p-8 shadow-sm border border-cream-deep/40">
+          <div class="w-12 h-12 rounded-xl mb-6 flex items-center justify-center" style="background: rgba(44,74,53,.1);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2C4A35" stroke-width="1.6" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3 class="font-display text-forest text-2xl font-semibold mb-1">Career Pivot</h3>
+          <p class="font-body text-earth text-sm font-medium mb-4 tracking-wide">6-week focused programme</p>
+          <p class="font-body text-forest/70 leading-relaxed text-sm mb-6">Specifically designed for professionals considering a career change. We'll map your transferable skills, build your narrative, and launch your next chapter with confidence.</p>
+          <ul class="space-y-2 mb-8">
+            <li class="font-body text-sm text-forest/80 flex items-start gap-2"><span class="text-earth mt-0.5">✦</span> 4 × 60-minute sessions</li>
+            <li class="font-body text-sm text-forest/80 flex items-start gap-2"><span class="text-earth mt-0.5">✦</span> Skills mapping workshop</li>
+            <li class="font-body text-sm text-forest/80 flex items-start gap-2"><span class="text-earth mt-0.5">✦</span> CV &amp; LinkedIn narrative review</li>
+            <li class="font-body text-sm text-forest/80 flex items-start gap-2"><span class="text-earth mt-0.5">✦</span> Interview confidence training</li>
+          </ul>
+          <a href="#contact" class="btn-outline rounded-full px-6 py-2.5 text-sm font-body font-medium inline-block">From £595</a>
+        </div>
+      </div>
+
+      <p class="text-center font-body text-sm text-forest/50 mt-10 fade-up">All sessions are available online (UK &amp; international) or in-person in the North West. Bespoke corporate programmes available — <a href="#contact" class="text-earth underline underline-offset-2">enquire here</a>.</p>
+    </div>
+  </section>
+
+  <!-- ── TESTIMONIAL BAND ──────────────────────────────────────── -->
+  <section class="py-20 bg-forest-section relative overflow-hidden">
+    <div class="absolute inset-0 opacity-5" style="background-image: repeating-linear-gradient(45deg, #F5EFE6 0px, #F5EFE6 1px, transparent 1px, transparent 50px);"></div>
+    <div class="max-w-3xl mx-auto px-6 text-center relative z-10 fade-up">
+      <div class="quote-mark leading-none mb-4">"</div>
+      <blockquote class="font-display text-cream-DEFAULT text-2xl md:text-3xl italic font-light leading-snug mb-6">
+        Working with Redwood Coaching changed the way I see myself and my career. I left every session feeling seen, challenged, and genuinely excited about what's possible.
+      </blockquote>
+      <cite class="font-body text-sage text-sm not-italic tracking-widest uppercase">— Sarah M., Senior Product Manager · Manchester</cite>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ──────────────────────────────────────────────────── -->
+  <section id="about" class="py-28" style="background: #EDE4D7;">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+      <!-- Portrait -->
+      <div class="portrait-frame relative fade-up order-2 md:order-1">
+        <div class="relative z-10 rounded-2xl overflow-hidden aspect-[4/5] max-w-sm mx-auto md:mx-0" style="background: linear-gradient(145deg, #2C4A35 0%, #3D6349 40%, #6B7C5C 100%);">
+          <!-- Placeholder portrait illustration -->
+          <svg viewBox="0 0 320 400" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+            <rect width="320" height="400" fill="transparent"/>
+            <!-- Subtle tree silhouette background -->
+            <ellipse cx="160" cy="420" rx="100" ry="30" fill="rgba(26,46,32,.4)"/>
+            <rect x="148" y="200" width="24" height="220" rx="4" fill="rgba(92,64,51,.5)"/>
+            <ellipse cx="160" cy="170" rx="90" ry="110" fill="rgba(44,74,53,.5)"/>
+            <ellipse cx="100" cy="210" rx="55" ry="75" fill="rgba(61,99,73,.4)"/>
+            <ellipse cx="220" cy="200" rx="55" ry="75" fill="rgba(61,99,73,.4)"/>
+            <!-- Person silhouette -->
+            <ellipse cx="160" cy="140" rx="42" ry="48" fill="rgba(245,239,230,.15)"/>
+            <path d="M100 280 Q100 220 160 210 Q220 220 220 280 L220 400 L100 400Z" fill="rgba(245,239,230,.1)"/>
+            <!-- "Add your photo" label -->
+            <text x="160" y="330" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="12" fill="rgba(245,239,230,.4)" letter-spacing="1">[ Add your photo ]</text>
+          </svg>
+        </div>
+        <!-- Floating badge -->
+        <div class="absolute -bottom-4 -right-4 md:-right-8 bg-earth-warm text-white rounded-xl px-5 py-3 shadow-lg z-20">
+          <div class="font-display text-2xl font-semibold leading-none">ICF</div>
+          <div class="font-body text-xs mt-0.5 opacity-90">Accredited Coach</div>
+        </div>
+      </div>
+
+      <!-- Text -->
+      <div class="fade-up delay-2 order-1 md:order-2">
+        <p class="font-body text-earth text-sm font-medium tracking-[.2em] uppercase mb-3">About Me</p>
+        <h2 class="font-display text-forest mb-6" style="font-size: clamp(1.8rem, 3.5vw, 3rem); font-weight: 300;">Hello, I'm <em>[Your Name].</em><br/>I coach people to grow roots.</h2>
+        <div class="space-y-4 font-body text-forest/75 leading-relaxed">
+          <p>I believe that real change doesn't come from pushing harder — it comes from understanding yourself more deeply. My coaching practice is built on the belief that every person already holds the answers they need; they just need the right space to find them.</p>
+          <p>With a background in psychology and over eight years of coaching practice, I've worked with professionals across industries — from executives navigating burnout to graduates stepping into their first leadership roles — helping them reconnect with what matters and move forward with intention.</p>
+          <p>I'm based in the North West of England and work with clients across the UK and internationally via video call.</p>
+        </div>
+
+        <!-- Credentials -->
+        <div class="flex flex-wrap gap-3 mt-8">
+          <span class="font-body text-xs bg-forest/8 text-forest border border-forest/15 rounded-full px-4 py-1.5 font-medium" style="background: rgba(44,74,53,.07);">ICF Accredited (ACC)</span>
+          <span class="font-body text-xs bg-forest/8 text-forest border border-forest/15 rounded-full px-4 py-1.5 font-medium" style="background: rgba(44,74,53,.07);">EMCC Member</span>
+          <span class="font-body text-xs bg-forest/8 text-forest border border-forest/15 rounded-full px-4 py-1.5 font-medium" style="background: rgba(44,74,53,.07);">BSc Psychology</span>
+          <span class="font-body text-xs bg-forest/8 text-forest border border-forest/15 rounded-full px-4 py-1.5 font-medium" style="background: rgba(44,74,53,.07);">NLP Practitioner</span>
+        </div>
+
+        <a href="#contact" class="btn-primary rounded-full px-7 py-3 font-body font-medium text-sm inline-flex items-center gap-2 mt-8">
+          Let's talk
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PROCESS ───────────────────────────────────────────────── -->
+  <section id="process" class="py-28" style="background: #F5EFE6;">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="text-center mb-16 fade-up">
+        <p class="font-body text-earth text-sm font-medium tracking-[.2em] uppercase mb-3">How It Works</p>
+        <h2 class="font-display text-forest" style="font-size: clamp(1.8rem, 3.5vw, 3rem); font-weight: 300;">Your journey,<br/><em>step by step</em></h2>
+      </div>
+      <div class="grid md:grid-cols-4 gap-8">
+        <!-- Steps -->
+        <div class="fade-up delay-1 text-center">
+          <div class="w-14 h-14 rounded-full border-2 border-earth/30 flex items-center justify-center mx-auto mb-5 font-display text-2xl text-earth font-semibold">1</div>
+          <h4 class="font-display text-forest text-xl font-semibold mb-2">Discovery Call</h4>
+          <p class="font-body text-sm text-forest/65 leading-relaxed">A free 30-minute call to understand your situation and make sure we're the right fit.</p>
+        </div>
+        <div class="fade-up delay-2 text-center">
+          <div class="w-14 h-14 rounded-full border-2 border-earth/30 flex items-center justify-center mx-auto mb-5 font-display text-2xl text-earth font-semibold">2</div>
+          <h4 class="font-display text-forest text-xl font-semibold mb-2">Choose a Package</h4>
+          <p class="font-body text-sm text-forest/65 leading-relaxed">Together we'll identify which programme best fits your goals, timeline, and investment.</p>
+        </div>
+        <div class="fade-up delay-3 text-center">
+          <div class="w-14 h-14 rounded-full border-2 border-earth/30 flex items-center justify-center mx-auto mb-5 font-display text-2xl text-earth font-semibold">3</div>
+          <h4 class="font-display text-forest text-xl font-semibold mb-2">Do the Work</h4>
+          <p class="font-body text-sm text-forest/65 leading-relaxed">Regular sessions with structured exercises, accountability, and genuine support throughout.</p>
+        </div>
+        <div class="fade-up delay-4 text-center">
+          <div class="w-14 h-14 rounded-full border-2 border-earth/30 flex items-center justify-center mx-auto mb-5 font-display text-2xl text-earth font-semibold">4</div>
+          <h4 class="font-display text-forest text-xl font-semibold mb-2">Live the Change</h4>
+          <p class="font-body text-sm text-forest/65 leading-relaxed">Walk away with lasting tools, renewed clarity, and the confidence to keep growing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTACT / CTA ─────────────────────────────────────────── -->
+  <section id="contact" class="py-28" style="background: linear-gradient(160deg, #2C4A35, #1A2E20);">
+    <div class="max-w-3xl mx-auto px-6 text-center fade-up">
+      <p class="font-body text-sage text-sm font-medium tracking-[.2em] uppercase mb-4">Ready to Begin?</p>
+      <h2 class="font-display text-cream-DEFAULT mb-6" style="font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 300;">Your free discovery call<br/><em class="text-earth-warm">awaits.</em></h2>
+      <p class="font-body text-sage/85 text-lg leading-relaxed mb-10">No pressure, no jargon. Just an honest conversation about where you are and where you want to go. Spots are limited — book yours today.</p>
+
+      <form class="bg-cream-warm/10 backdrop-blur rounded-2xl p-8 md:p-10 border border-white/10 text-left space-y-5" onsubmit="handleFormSubmit(event)">
+        <div class="grid md:grid-cols-2 gap-5">
+          <div>
+            <label class="font-body text-xs text-sage/70 uppercase tracking-widest block mb-2">First Name</label>
+            <input type="text" placeholder="Jane" class="w-full bg-cream-warm/10 border border-white/15 rounded-xl px-4 py-3 font-body text-cream-DEFAULT placeholder-sage/40 focus:outline-none focus:border-earth/60 transition-colors text-sm" />
+          </div>
+          <div>
+            <label class="font-body text-xs text-sage/70 uppercase tracking-widest block mb-2">Last Name</label>
+            <input type="text" placeholder="Smith" class="w-full bg-cream-warm/10 border border-white/15 rounded-xl px-4 py-3 font-body text-cream-DEFAULT placeholder-sage/40 focus:outline-none focus:border-earth/60 transition-colors text-sm" />
+          </div>
+        </div>
+        <div>
+          <label class="font-body text-xs text-sage/70 uppercase tracking-widest block mb-2">Email Address</label>
+          <input type="email" placeholder="jane@example.com" class="w-full bg-cream-warm/10 border border-white/15 rounded-xl px-4 py-3 font-body text-cream-DEFAULT placeholder-sage/40 focus:outline-none focus:border-earth/60 transition-colors text-sm" />
+        </div>
+        <div>
+          <label class="font-body text-xs text-sage/70 uppercase tracking-widest block mb-2">What brings you here?</label>
+          <textarea rows="3" placeholder="Tell me a little about what you're working through..." class="w-full bg-cream-warm/10 border border-white/15 rounded-xl px-4 py-3 font-body text-cream-DEFAULT placeholder-sage/40 focus:outline-none focus:border-earth/60 transition-colors text-sm resize-none"></textarea>
+        </div>
+        <button type="submit" class="btn-primary w-full rounded-xl py-3.5 font-body font-medium text-base text-center">
+          Request My Free Discovery Call
+        </button>
+        <p class="font-body text-xs text-sage/50 text-center">Your details are kept completely confidential. No spam, ever.</p>
+      </form>
+
+      <!-- Direct contact -->
+      <div class="flex flex-wrap justify-center gap-8 mt-12 font-body text-sm text-sage/70">
+        <a href="mailto:hello@redwoodcoaching.co.uk" class="flex items-center gap-2 hover:text-sage transition-colors">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+          hello@redwoodcoaching.co.uk
+        </a>
+        <span class="flex items-center gap-2">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          North West, England &amp; Online UK-wide
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────────── -->
+  <footer class="bg-forest-dark py-10 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-2.5">
+        <svg width="26" height="26" viewBox="0 0 32 32" fill="none"><path d="M16 2 C16 2 8 10 8 20 C8 26 12 30 16 30 C20 30 24 26 24 20 C24 10 16 2 16 2Z" fill="#2C4A35"/><path d="M16 8 C13 14 12 18 13 23" stroke="#6B7C5C" stroke-width="1.2" stroke-linecap="round" fill="none"/></svg>
+        <span class="font-display text-lg text-cream-DEFAULT/80">Redwood <span class="text-earth/70">Coaching</span></span>
+      </a>
+
+      <!-- Links -->
+      <ul class="flex flex-wrap items-center gap-6 font-body text-xs text-sage/50 uppercase tracking-widest">
+        <li><a href="#services" class="hover:text-sage/80 transition-colors">Services</a></li>
+        <li><a href="#about"    class="hover:text-sage/80 transition-colors">About</a></li>
+        <li><a href="#contact"  class="hover:text-sage/80 transition-colors">Contact</a></li>
+        <li><a href="#"         class="hover:text-sage/80 transition-colors">Privacy Policy</a></li>
+      </ul>
+
+      <!-- Copyright -->
+      <p class="font-body text-xs text-sage/35">© 2025 Redwood Coaching · Registered in England</p>
+    </div>
+  </footer>
+
+  <script>
+    // Nav scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Mobile menu toggle
+    document.getElementById('menu-btn').addEventListener('click', () => {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+    document.querySelectorAll('#mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('mobile-menu').classList.add('hidden');
+      });
+    });
+
+    // Intersection observer for fade-up
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Trigger hero fades immediately
+    document.querySelectorAll('#hero .fade-up').forEach(el => {
+      setTimeout(() => el.classList.add('visible'), 200);
+    });
+
+    // Form submit placeholder
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('button[type="submit"]');
+      btn.textContent = '✓ Request Sent — I\'ll be in touch soon!';
+      btn.disabled = true;
+      btn.style.background = '#6B7C5C';
+    }
+  </script>
+</body>
+</html>
