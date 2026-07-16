@@ -132,7 +132,6 @@
 
     .tagline {
       font-family: var(--font-display);
-      font-style: italic;
       font-size: clamp(1rem, 3vw, 1.25rem);
       color: rgba(245,240,232,0.75);
       letter-spacing: 0.04em;
@@ -344,6 +343,88 @@
       margin-top: 0.5rem;
     }
 
+    /* ── Mission section ──────────────────────────────────── */
+    .mission {
+      background: var(--cream-dark);
+      border-top: 1px solid rgba(139,105,20,0.2);
+      border-bottom: 1px solid rgba(139,105,20,0.2);
+      padding: 3.5rem 1.5rem;
+    }
+
+    .mission-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .mission-heading {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 700;
+      color: var(--crimson);
+      text-align: center;
+      margin-bottom: 0.6rem;
+    }
+
+    .mission-intro {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-bottom: 2.5rem;
+      font-family: var(--font-body);
+    }
+
+    .mission-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .mission-item {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 0 1.25rem;
+      align-items: start;
+    }
+
+    .mission-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--green-dark);
+      border: 2px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .mission-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .mission-text {
+      padding-top: 0.6rem;
+      color: var(--text-muted);
+      font-size: 0.9875rem;
+      line-height: 1.7;
+    }
+
+    .mission-text strong {
+      color: var(--crimson);
+      font-weight: 700;
+    }
+
+    @media (max-width: 480px) {
+      .mission-item {
+        grid-template-columns: 40px 1fr;
+        gap: 0 1rem;
+      }
+      .mission-icon { width: 40px; height: 40px; }
+      .mission-icon svg { width: 20px; height: 20px; }
+    }
+
     /* ── Reduced motion ───────────────────────────────────── */
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -473,6 +554,70 @@
 
   <!-- ── MAIN ── -->
   <main id="main-content">
+
+    <!-- Mission Statement -->
+    <section class="mission" aria-label="Our mission">
+      <div class="mission-inner">
+        <h2 class="mission-heading">The Redwood Mission</h2>
+        <p class="mission-intro">Our mission is to help you stand tall and grow without limits. Together, we will:</p>
+        <ul class="mission-list">
+
+          <li class="mission-item">
+            <div class="mission-icon" aria-hidden="true">
+              <!-- Vision / eye / star icon -->
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 5 L13.5 9.5 L18 9.5 L14.5 12.5 L16 17 L12 14 L8 17 L9.5 12.5 L6 9.5 L10.5 9.5 Z" fill="#C49A28" opacity="0.9"/>
+              </svg>
+            </div>
+            <p class="mission-text"><strong>Design a vivid vision</strong> for your future.</p>
+          </li>
+
+          <li class="mission-item">
+            <div class="mission-icon" aria-hidden="true">
+              <!-- Roots / anchor icon -->
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 3 L12 13" stroke="#C49A28" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 13 Q7 17 4 21" stroke="#8B6020" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 13 Q17 17 20 21" stroke="#8B6020" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 16 Q9 19 7 22" stroke="#7A5020" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M12 16 Q15 19 17 22" stroke="#7A5020" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M7 11 Q12 8 17 11" stroke="#C49A28" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.6"/>
+              </svg>
+            </div>
+            <p class="mission-text"><strong>Deepen your roots</strong> with unshakeable, positive belief systems.</p>
+          </li>
+
+          <li class="mission-item">
+            <div class="mission-icon" aria-hidden="true">
+              <!-- Flame / ignite icon -->
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 21 C7 21 5 17 6 13 C7 10 9 9 9 9 C9 12 11 13 12 11 C13 9 12 6 10 4 C14 5 18 9 17 14 C16.5 16.5 15 18 15 18 C15 15 13.5 14 13 15 C12.5 16 13 18 12 21 Z" fill="#C49A28" opacity="0.85"/>
+              </svg>
+            </div>
+            <p class="mission-text"><strong>Ignite the inner drive</strong> that fuels your upward growth.</p>
+          </li>
+
+          <li class="mission-item">
+            <div class="mission-icon" aria-hidden="true">
+              <!-- Branches / expand icon -->
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <line x1="12" y1="20" x2="12" y2="8"  stroke="#8B5A2A" stroke-width="2" stroke-linecap="round"/>
+                <line x1="12" y1="11" x2="6"  y2="6"  stroke="#3D7A35" stroke-width="2" stroke-linecap="round"/>
+                <line x1="12" y1="11" x2="18" y2="6"  stroke="#3D7A35" stroke-width="2" stroke-linecap="round"/>
+                <line x1="12" y1="8"  x2="8"  y2="4"  stroke="#2D5A27" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="12" y1="8"  x2="16" y2="4"  stroke="#2D5A27" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="6"  cy="5"  r="1.5" fill="#C49A28"/>
+                <circle cx="18" cy="5"  r="1.5" fill="#C49A28"/>
+                <circle cx="8"  cy="3"  r="1.2" fill="#C49A28"/>
+                <circle cx="16" cy="3"  r="1.2" fill="#C49A28"/>
+              </svg>
+            </div>
+            <p class="mission-text"><strong>Co-create the blueprint</strong> to rapidly branch out and conquer your goals.</p>
+          </li>
+
+        </ul>
+      </div>
+    </section>
 
     <!-- Intro -->
     <section class="intro" aria-label="Introduction">
